@@ -1,6 +1,16 @@
 import { expect } from "chai"
-describe('Array', function () {
-    it('should return -1 when the value is not present', function () {
-      expect([1, 2, 3].indexOf(4)).to.equal(-1)
-    }); 
+import { JSDOM } from "jsdom"
+
+describe('Index', function () {
+  before(function() {
+    return JSDOM.fromFile('index.html')
+      .then((dom) => {
+        global.window = dom.window;
+        global.document = window.document;
+      });
+  })
+
+  it ('should has a title', function () {
+    expect(document.getElementsByTagName('h1')[0].innerHTML).to.equal('Hello World!');
+  });
 });
