@@ -9,8 +9,17 @@
 <body>    
     <script>
         const text = document.createElement("textarea")
+        const div = document.createElement("div")
+
+        text.addEventListener("keydown", (event) => {
+         if(event.keyCode === 13) {
+            div.innerHTML = text.value 
+         }
+        })
+
         document.body.appendChild(text)
-     </script>
+        document.body.appendChild(div)
+    </script>
 </body>
 
 </html>
