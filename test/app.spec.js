@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event"
 
 describe('App', () => {
   beforeEach(() => {
-    return JSDOM.fromFile('index.html', {runScripts: 'dangerously'})
+    return JSDOM.fromFile('index.html', {runScripts: 'dangerously', url: 'http://localhost'})
       .then((dom) => {
         global.window = dom.window;
         global.document = window.document;
