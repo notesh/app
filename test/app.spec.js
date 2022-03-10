@@ -8,7 +8,8 @@ describe('App', () => {
       .then((dom) => {
         global.window = dom.window;
         global.document = window.document;
-      });
+        global.window.localStorage.setItem("notes", JSON.stringify(["aNote"]))
+      })
   })
 
   it('allows to write down notes', async () => {
@@ -20,18 +21,21 @@ describe('App', () => {
     expect(textarea.value).to.equal(myNote)
   });
 
-it('allows to save a note', async () => {
+  it('allows to save a note', async () => {
     const myNote = "Note"
     write(myNote)
     
     save()
-
+    
     const div = document.querySelector("div")
+    const notes = getSavedNotes()
+    expect(notes).to.contain(myNote)
     expect(div.innerHTML).to.equal(myNote)
+  
   });
 
   it('clear text when save note', ()=>{
-    const empty= ""
+    const empty = ""
     const textarea = document.querySelector("textarea")
     write("Note")
 
@@ -39,6 +43,7 @@ it('allows to save a note', async () => {
 
     expect(textarea.value).to.equal(empty)
   })
+
   it('should save multiples notes', ()=> {
     const firstNote = "first note"
     const secondNote = "second note"
@@ -53,7 +58,9 @@ it('allows to save a note', async () => {
     expect(notes[0].innerHTML).to.equal(firstNote)
     expect(notes[1].innerHTML).to.equal(secondNote)
   })
+
 });
+
 
 const write = async (text) => {
   const textarea = document.querySelector('textarea') 
@@ -65,4 +72,8 @@ const save = async() => {
   const textarea = document.querySelector('textarea') 
 
   await userEvent.default.type(textarea,"{enter}")
+}
+
+const getSavedNotes = () => {
+  return JSON.parse(window.localStorage.getItem("notes"))
 }
