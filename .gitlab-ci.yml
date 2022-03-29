@@ -9,9 +9,9 @@ test:
     - npm run test
 
 cypress:
-  image: cypress/browsers:node12.14.1-chrome85-ff81
+  image: cypress/browsers:node14.17.0-chrome91-ff89
   stage: test
   script:
-   - npm install
-   - npm run start
+   - npm ci
+   - npm run start &
    - npx cypress run --browser firefox
