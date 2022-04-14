@@ -65,7 +65,7 @@ const getSavedNotes = () => {
 };
 
 const getElementByText = (text) => {
-  const body = document.querySelector('body');
+  const body = document.getElementById('container');
   let foundElement;
   body.childNodes.forEach((element) => {
     if (element.textContent === text) foundElement = element;
