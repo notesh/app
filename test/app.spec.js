@@ -1,14 +1,21 @@
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import userEvent from '@testing-library/user-event';
+import fs from "fs"
 
 describe('App', () => {
+  let dom
+  const html = fs.readFileSync('index.html', 'utf8')
   beforeEach(() => {
-    return JSDOM.fromFile('index.html', { runScripts: 'dangerously', url: 'http://localhost' }).then((dom) => {
-      global.window = dom.window;
-      global.document = window.document;
-      global.window.localStorage.setItem('notes', JSON.stringify(['aNote']));
-    });
+    dom = new JSDOM(html, { runScripts: 'dangerously', url: 'http://localhost' });
+    let scriptContent = fs.readFileSync('script.js', 'utf8');
+    let scriptElement = dom.window.document.createElement('script');
+    scriptElement.textContent = scriptContent;
+    dom.window.document.body.appendChild(scriptElement)
+
+    global.window = dom.window;
+    global.document = window.document
+
   });
 
   it('allows to write down notes', async () => {
