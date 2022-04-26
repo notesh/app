@@ -33,3 +33,14 @@ jobs:
         with:
           browser: chrome
           start: npm run start
+
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+          branch: gh-pages 
+          folder: .
