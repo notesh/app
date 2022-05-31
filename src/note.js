@@ -1,19 +1,19 @@
 class Note {
     constructor(window){
-        this.localstorage = window.localstorage
+        this.localstorage = window.localStorage
         this.document = window.document
     }
 
     render(){
         const enterKey = 13
-        const container = document.getElementById("container")
-        const textarea = document.createElement("textarea")
+        const container = this.document.getElementById("container")
+        const textarea = this.document.createElement("textarea")
         textarea.setAttribute("id", "InputNote");
         textarea.setAttribute("type", "text");
         textarea.setAttribute("class", "my-6 w-2/3 border rounded border-teal-600 focus:border focus:border-2 focus:border-teal-600 focus:outline-0")
         
         container.appendChild(textarea)
-        const notes = JSON.parse(localStorage.getItem("notes")) || []
+        const notes = JSON.parse(this.localstorage.getItem("notes")) || []
         
         textarea.addEventListener("keydown", (event) => {
             if (event.keyCode === enterKey) {
@@ -32,20 +32,21 @@ class Note {
         }
         
         const createNote = text => {
-            const div = document.createElement("div")
+            const div = this.document.createElement("div")
+            div.setAttribute("data-testid", "note")
             div.setAttribute("class", "mt-4 w-2/3 bg-teal-100 border rounded border-teal-600 text px-1 text-justify")
             div.innerHTML = text
             container.appendChild(div)
         }
         
         const storeNote = () => {
-            localStorage.setItem("notes", JSON.stringify(notes))
+            this.localstorage.setItem("notes", JSON.stringify(notes))
         }
         
         getNotes()
     }
 }
 
-const note  = new Note({window})
-note.render()
 
+
+export { Note }
