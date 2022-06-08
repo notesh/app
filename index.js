@@ -1,4 +1,4 @@
-import {Note} from "./src/note.js"
+import { Note } from "./src/note.js"
 
 const note = new Note(window)
 note.render()

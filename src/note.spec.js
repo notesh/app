@@ -4,15 +4,15 @@ import userEvent from '@testing-library/user-event';
 import { Note } from './note.js'
 
 describe('App', () => {
-  let dom 
+  let dom
 
   beforeEach(() => {
-    dom = new JSDOM('<div id="container"></div>', { runScripts: "outside-only", url: "http://localhost" }); 
+    dom = new JSDOM('<div id="container"></div>', { runScripts: "outside-only", url: "http://localhost" });
   });
 
   it('allows to write down notes', async () => {
     const myNote = 'Note';
-    const {document} = render(Note)    
+    const { document } = render(Note)
     const textarea = document.querySelector('textarea');
 
     await userEvent.default.type(textarea, myNote);
@@ -22,9 +22,9 @@ describe('App', () => {
 
   it('clears text when save note', async () => {
     const empty = '';
-    const {document} = render(Note)  
+    const { document } = render(Note)
     const textarea = document.querySelector('textarea');
-   
+
     await userEvent.default.type(textarea, "Note");
     await userEvent.default.type(textarea, '{enter}');
 
@@ -34,7 +34,7 @@ describe('App', () => {
   it('saves multiples notes', async () => {
     const firstNote = 'first note';
     const secondNote = 'second note';
-    const {document} = render(Note)
+    const { document } = render(Note)
     const textarea = document.querySelector('textarea');
 
     await userEvent.default.type(textarea, firstNote);
@@ -43,29 +43,29 @@ describe('App', () => {
     await userEvent.default.type(textarea, secondNote);
     await userEvent.default.type(textarea, '{enter}');
 
-    
-     expect(getTextFrom(document.querySelectorAll('[data-testid="note"]'))).to.contain(firstNote)
-     expect(getTextFrom(document.querySelectorAll('[data-testid="note"]'))).to.contain(secondNote)
+
+    expect(getTextFrom(document.querySelectorAll('[data-testid="note"]'))).to.contain(firstNote)
+    expect(getTextFrom(document.querySelectorAll('[data-testid="note"]'))).to.contain(secondNote)
   });
 
   it('shows notes saved in localStorage', async () => {
     dom.window.localStorage.setItem("notes", JSON.stringify(["My note in localStorage"]))
 
-    const {document} = render(Note)
+    const { document } = render(Note)
 
     expect(getTextFrom(document.querySelectorAll('[data-testid="note"]'))).to.contain("My note in localStorage")
   })
 
   const render = (componentClass) => {
     const component = new componentClass(dom.window)
-     component.render();
-     return {document : dom.window.document, window: dom.window}
-   };  
+    component.render();
+    return { document: dom.window.document, window: dom.window }
+  };
 
-   const getTextFrom  = (elements) => {
-      return Array.from(elements).map(element => element.textContent)
-   }
-  
+  const getTextFrom = (elements) => {
+    return Array.from(elements).map(element => element.textContent)
+  }
+
 });
 
- 
+
