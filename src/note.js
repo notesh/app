@@ -1,6 +1,8 @@
+import { Storage } from "./storage.js"
+
 class Note {
     constructor(window) {
-        this.localstorage = window.localStorage
+        this.storage = new Storage(window.localStorage)
         this.document = window.document
     }
 
@@ -13,7 +15,7 @@ class Note {
         textarea.setAttribute("class", "my-6 w-2/3 border rounded border-teal-600 focus:border focus:border-2 focus:border-teal-600 focus:outline-0")
 
         container.appendChild(textarea)
-        const notes = JSON.parse(this.localstorage.getItem("notes")) || []
+        const notes = this.storage.retrieve() || []
 
         textarea.addEventListener("keydown", (event) => {
             if (event.keyCode === enterKey) {
@@ -40,7 +42,7 @@ class Note {
         }
 
         const storeNote = () => {
-            this.localstorage.setItem("notes", JSON.stringify(notes))
+            this.storage.store(notes)
         }
 
         getNotes()
