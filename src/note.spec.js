@@ -56,6 +56,21 @@ describe('App', () => {
     expect(getTextFrom(document.querySelectorAll('[data-testid="note"]'))).to.contain("My note in localStorage")
   })
 
+  it('deletes a single note', async () => {
+    const myNote = 'Note to delete';
+    const { document } = render(Note)
+    const textarea = document.querySelector('textarea');
+
+    await userEvent.default.type(textarea, myNote);
+    await userEvent.default.type(textarea, '{enter}');
+
+    expect(dom.window.localStorage.getItem("notes")).to.contain(myNote) 
+    const deleteButton = document.getElementById("deletee")
+
+    userEvent.default.click(deleteButton);
+    expect(dom.window.localStorage.getItem("notes")).not.to.contain(myNote) 
+  });
+
   const render = (componentClass) => {
     const component = new componentClass(dom.window)
     component.render();
