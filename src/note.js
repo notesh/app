@@ -9,13 +9,13 @@ class Note {
 
     render() {
         const enterKey = 13
-        const container = this.document.getElementById("container")
+        const inputContainer = this.document.getElementById("input-container")        
         const textarea = this.document.createElement("textarea")
         textarea.setAttribute("id", "InputNote");
         textarea.setAttribute("type", "text");
         textarea.setAttribute("class", "my-6 w-2/3 border rounded border-teal-600 focus:border focus:border-2 focus:border-teal-600 focus:outline-0")
 
-        container.appendChild(textarea)
+        inputContainer.appendChild(textarea)
         const notes = this.storage.retrieve() || []
 
         textarea.addEventListener("keydown", (event) => {
@@ -35,6 +35,7 @@ class Note {
         }
 
         const createNote = text => {
+            const notesContainer = this.document.getElementById("notes-container")
             const noteContent = this.document.createElement("div")
             noteContent.setAttribute("class", "flex justify-end")
 
@@ -54,7 +55,7 @@ class Note {
 
             noteContent.appendChild(div)
             noteContent.appendChild(deleteButton)
-            container.appendChild(noteContent)
+            notesContainer.insertBefore(noteContent, notesContainer.firstChild)
         }
 
         const storeNote = () => {
@@ -68,7 +69,7 @@ class Note {
            
             this.storage.store(notes)
  
-             this.window.location = this.window.location
+            this.window.location = this.window.location
         }
 
         getNotes()
