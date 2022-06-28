@@ -65,7 +65,7 @@ describe('App', () => {
     await userEvent.default.type(textarea, '{enter}');
 
     expect(dom.window.localStorage.getItem("notes")).to.contain(myNote) 
-    const deleteButton = document.getElementById("deletee")
+    const deleteButton = document.getElementById("delete")
 
     userEvent.default.click(deleteButton);
     expect(dom.window.localStorage.getItem("notes")).not.to.contain(myNote) 

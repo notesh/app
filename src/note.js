@@ -40,7 +40,7 @@ class Note {
 
             const deleteButton = this.document.createElement("button")
             deleteButton.setAttribute("type", "button")
-            deleteButton.setAttribute("id", "deletee")
+            deleteButton.setAttribute("id", "delete")
             deleteButton.setAttribute("class", "mt-4 ml-4 bg-teal-600 border rounded border-teal-600 text px-1 text-justify")
             deleteButton.innerHTML = "Delete"
             deleteButton.addEventListener("click", (event) => {
