@@ -11,11 +11,22 @@ class Note {
         const enterKey = 13
         const inputContainer = this.document.getElementById("input-container")        
         const textarea = this.document.createElement("textarea")
+        const deleteAllButton = this.document.createElement("button")
+        deleteAllButton.setAttribute("type", "button")
+        deleteAllButton.setAttribute("id", "deleteAll")
+        deleteAllButton.setAttribute("class", "mt-4 max-h-8 bg-red-400 border rounded border-0 text px-1 text-justify")
+        deleteAllButton.innerHTML = "Delete all"
+        deleteAllButton.addEventListener("click", () => {
+            this.storage.store([])
+            this.window.location = this.window.location
+        })
+
         textarea.setAttribute("id", "InputNote");
         textarea.setAttribute("type", "text");
         textarea.setAttribute("class", "my-6 w-2/3 border rounded border-teal-600 focus:border focus:border-2 focus:border-teal-600 focus:outline-0")
 
         inputContainer.appendChild(textarea)
+        inputContainer.appendChild(deleteAllButton)
         const notes = this.storage.retrieve() || []
 
         textarea.addEventListener("keydown", (event) => {
@@ -37,12 +48,12 @@ class Note {
         const createNote = text => {
             const notesContainer = this.document.getElementById("notes-container")
             const noteContent = this.document.createElement("div")
-            noteContent.setAttribute("class", "flex justify-end")
+            noteContent.setAttribute("class", "flex flex-row  justify-start")
 
             const deleteButton = this.document.createElement("button")
             deleteButton.setAttribute("type", "button")
             deleteButton.setAttribute("id", "delete")
-            deleteButton.setAttribute("class", "mt-4 ml-3 bg-teal-600 border rounded border-teal-600 text px-1 text-justify")
+            deleteButton.setAttribute("class", "mt-4 ml-3 bg-red-300 border rounded border-0 text px-1 text-justify")
             deleteButton.innerHTML = "Delete"
             deleteButton.addEventListener("click", (event) => {
                 deleteNote(event.srcElement.parentElement.children[0].innerHTML)
