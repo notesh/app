@@ -62,11 +62,11 @@ class Note {
         }
 
         const deleteNote = (note) => {
-            const notes = JSON.parse(this.localstorage.getItem("notes"))         
+            const notes = this.storage.retrieve()
             const itemPosition = notes.findIndex((savedNote) => savedNote === note)    
             notes.splice(itemPosition, 1);
            
-            this.localstorage.setItem("notes", JSON.stringify(notes))
+            this.storage.store(notes)
  
              this.window.location = this.window.location
         }
