@@ -4,6 +4,7 @@ class Note {
     constructor(window) {
         this.storage = new Storage(window.localStorage)
         this.document = window.document
+        this.window = window
     }
 
     render() {
@@ -34,15 +35,40 @@ class Note {
         }
 
         const createNote = text => {
+            const noteContent = this.document.createElement("div")
+            noteContent.setAttribute("class", "flex justify-end")
+
+            const deleteButton = this.document.createElement("button")
+            deleteButton.setAttribute("type", "button")
+            deleteButton.setAttribute("id", "deletee")
+            deleteButton.setAttribute("class", "mt-4 ml-4 bg-teal-600 border rounded border-teal-600 text px-1 text-justify")
+            deleteButton.innerHTML = "Delete"
+            deleteButton.addEventListener("click", (event) => {
+                deleteNote(event.srcElement.parentElement.children[0].innerHTML)
+            })
+            
             const div = this.document.createElement("div")
             div.setAttribute("data-testid", "note")
             div.setAttribute("class", "mt-4 w-2/3 bg-teal-100 border rounded border-teal-600 text px-1 text-justify")
             div.innerHTML = text
-            container.appendChild(div)
+
+            noteContent.appendChild(div)
+            noteContent.appendChild(deleteButton)
+            container.appendChild(noteContent)
         }
 
         const storeNote = () => {
             this.storage.store(notes)
+        }
+
+        const deleteNote = (note) => {
+            const notes = this.storage.retrieve()
+            const itemPosition = notes.findIndex((savedNote) => savedNote === note)    
+            notes.splice(itemPosition, 1);
+           
+            this.storage.store(notes)
+ 
+             this.window.location = this.window.location
         }
 
         getNotes()
