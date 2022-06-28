@@ -71,6 +71,20 @@ describe('App', () => {
     expect(dom.window.localStorage.getItem("notes")).not.to.contain(myNote) 
   });
 
+  it('deletes all notes at the same time', async () => {
+    dom.window.localStorage.setItem("notes", JSON.stringify(["My note 1", "My note 2"]))
+    const { document } = render(Note)
+    expect(dom.window.localStorage.getItem("notes")).to.contain("My note 1") 
+    expect(dom.window.localStorage.getItem("notes")).to.contain("My note 2") 
+    const deleteButton = document.getElementById("deleteAll")
+
+    userEvent.default.click(deleteButton);
+
+    expect(dom.window.localStorage.getItem("notes")).not.to.contain("My note 1") 
+    expect(dom.window.localStorage.getItem("notes")).not.to.contain("My note 2") 
+    
+  });
+
   const render = (componentClass) => {
     const component = new componentClass(dom.window)
     component.render();
