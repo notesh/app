@@ -85,6 +85,7 @@ class Note {
         }
 
         getNotes()
+        this.window.onload = this.document.getElementById('InputNote').select();
     }
 }
 
