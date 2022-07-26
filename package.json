@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha src/*.js",
     "start": "http-server -p 8080",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "tailwind": "tailwindcss -c ./tailwind.config.cjs -i ./styles/main.css -o ./styles/output.css --watch"
   },
   "repository": {
     "type": "git",
