@@ -7,7 +7,7 @@ describe('App', () => {
   let dom
 
   beforeEach(() => {
-    dom = new JSDOM('<div id="container"><div id="input-container" class="ml-2"></div><div id="notes-container" class="ml-2"></div></div>', { runScripts: "outside-only", url: "http://localhost" });
+    dom = new JSDOM('<div id="container"><div id="input-container"></div><div id="notes-container"></div><div id="delete-container"></div></div>', { runScripts: "outside-only", url: "http://localhost" });
   });
 
   it('allows to write down notes', async () => {

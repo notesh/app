@@ -9,12 +9,13 @@ class Note {
 
     render() {
         const enterKey = 13
-        const inputContainer = this.document.getElementById("input-container")        
+        const inputContainer = this.document.getElementById("input-container")     
+        const deleteContainer = this.document.getElementById("delete-container")      
         const textarea = this.document.createElement("textarea")
         const deleteAllButton = this.document.createElement("button")
         deleteAllButton.setAttribute("type", "button")
         deleteAllButton.setAttribute("id", "deleteAll")
-        deleteAllButton.setAttribute("class", "mt-4 max-h-8 bg-red-400 border rounded border-0 text px-1 text-justify")
+        deleteAllButton.setAttribute("class", "my-6 text px-2 text-red-600 justify-end")
         deleteAllButton.innerHTML = "Delete all"
         deleteAllButton.addEventListener("click", () => {
             this.storage.store([])
@@ -23,10 +24,10 @@ class Note {
 
         textarea.setAttribute("id", "InputNote");
         textarea.setAttribute("type", "text");
-        textarea.setAttribute("class", "my-6 w-2/3 border rounded border-teal-600 focus:border focus:border-2 focus:border-teal-600 focus:outline-0")
+        textarea.setAttribute("class", "my-6 w-3/4 border rounded border-black bg-gray-900 text px-2 text-green-400 focus:outline-0")
 
         inputContainer.appendChild(textarea)
-        inputContainer.appendChild(deleteAllButton)
+        deleteContainer.appendChild(deleteAllButton)
         const notes = this.storage.retrieve() || []
 
         textarea.addEventListener("keydown", (event) => {
@@ -48,12 +49,12 @@ class Note {
         const createNote = text => {
             const notesContainer = this.document.getElementById("notes-container")
             const noteContent = this.document.createElement("div")
-            noteContent.setAttribute("class", "flex flex-row  justify-start")
+            noteContent.setAttribute("class", "flex flex-row  justify-center")
 
             const deleteButton = this.document.createElement("button")
             deleteButton.setAttribute("type", "button")
             deleteButton.setAttribute("id", "delete")
-            deleteButton.setAttribute("class", "mt-4 ml-3 bg-red-300 border rounded border-0 text px-1 text-justify")
+            deleteButton.setAttribute("class", "mt-4 ml-3 border rounded border-0 text px-2 text-red-600 text-justify")
             deleteButton.innerHTML = "Delete"
             deleteButton.addEventListener("click", (event) => {
                 deleteNote(event.srcElement.parentElement.children[0].innerHTML)
@@ -61,7 +62,7 @@ class Note {
             
             const div = this.document.createElement("div")
             div.setAttribute("data-testid", "note")
-            div.setAttribute("class", "mt-4 w-2/3 bg-teal-100 border rounded border-teal-600 text px-1 text-justify")
+            div.setAttribute("class", "mt-4 w-2/3  before:content-['>>_'] rounded text px-2 text-green-400 text-start text-lg")
             div.innerHTML = text
 
             noteContent.appendChild(div)
