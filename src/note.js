@@ -12,6 +12,23 @@ class Note {
         const inputContainer = this.document.getElementById("input-container")     
         const deleteContainer = this.document.getElementById("delete-container")      
         const textarea = this.document.createElement("textarea")
+        const downloadButton = this.document.createElement("button")
+        downloadButton.setAttribute("type", "button")
+        downloadButton.setAttribute("class", "my-6 text px-2 text-blue-600 justify-end")
+        downloadButton.innerHTML = "Download"
+        downloadButton.addEventListener("click", () => {
+            var allNotes = localStorage.getItem('notes');
+            var notesJSON = JSON.stringify(allNotes);
+
+            var blob = new Blob([notesJSON], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = 'notas.json';
+            link.click();
+        })
+
         const deleteAllButton = this.document.createElement("button")
         deleteAllButton.setAttribute("type", "button")
         deleteAllButton.setAttribute("id", "deleteAll")
@@ -27,6 +44,7 @@ class Note {
         textarea.setAttribute("class", "my-6 w-3/4 border rounded border-black bg-gray-900 text p-4 text-green-400 focus:outline-0")
 
         inputContainer.appendChild(textarea)
+        deleteContainer.appendChild(downloadButton)
         deleteContainer.appendChild(deleteAllButton)
         const notes = this.storage.retrieve() || []
 
