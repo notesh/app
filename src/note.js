@@ -24,7 +24,7 @@ class Note {
 
         textarea.setAttribute("id", "InputNote");
         textarea.setAttribute("type", "text");
-        textarea.setAttribute("class", "my-6 w-3/4 border rounded border-black bg-gray-900 text px-2 text-green-400 focus:outline-0")
+        textarea.setAttribute("class", "my-6 w-3/4 border rounded border-black bg-gray-900 text p-4 text-green-400 focus:outline-0")
 
         inputContainer.appendChild(textarea)
         deleteContainer.appendChild(deleteAllButton)
@@ -49,12 +49,12 @@ class Note {
         const createNote = text => {
             const notesContainer = this.document.getElementById("notes-container")
             const noteContent = this.document.createElement("div")
-            noteContent.setAttribute("class", "flex flex-row  justify-center")
+            noteContent.setAttribute("class", "flex flex-row justify-center")
 
             const deleteButton = this.document.createElement("button")
             deleteButton.setAttribute("type", "button")
             deleteButton.setAttribute("id", "delete")
-            deleteButton.setAttribute("class", "mt-4 ml-3 border rounded border-0 text px-2 text-red-600 text-justify")
+            deleteButton.setAttribute("class", "mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify")
             deleteButton.innerHTML = "Delete"
             deleteButton.addEventListener("click", (event) => {
                 deleteNote(event.srcElement.parentElement.children[0].innerHTML)
@@ -62,7 +62,7 @@ class Note {
             
             const div = this.document.createElement("div")
             div.setAttribute("data-testid", "note")
-            div.setAttribute("class", "mt-4 w-2/3  before:content-['>>_'] rounded text px-2 text-green-400 text-start text-lg")
+            div.setAttribute("class", "mt-4 w-2/3  before:content-['>>_'] rounded text p-2 text-green-400 text-start text-lg")
             div.innerHTML = text
 
             noteContent.appendChild(div)
