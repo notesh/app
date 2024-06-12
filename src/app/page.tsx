@@ -40,8 +40,8 @@ export default function Home() {
         />
       </div>
       {notes.map((note, index) => (
-        <div className="flex flex-row justify-center">
-          <div key={index} className="mt-4 w-2/3  before:content-['>>_'] rounded text p-2 text-green-400 text-start text-lg">
+        <div key={index} className="flex flex-row justify-center">
+          <div className="mt-4 w-2/3  before:content-['>>_'] rounded text p-2 text-green-400 text-start text-lg">
             {note}
           </div>
           <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={() => handleDelete(index)}>
