@@ -17,24 +17,42 @@ export default function Home() {
     }
   }
 
+  const handleDelete = (index: number) => {
+    const updatedNotes = [...notes]
+    updatedNotes.splice(index, 1)
+    setNotes(updatedNotes)
+  }
+
+  const handleDeleteAll = () => {
+    setNotes([])
+  }
+
   return (
-    <main className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md space-y-4">
+    <main>
+      <div className="flex flex-row justify-center">
         <Textarea
           value={newNote}
           onChange={(e) => setNewNote(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Enter your notes..."
-          className="w-full p-4 rounded-lg shadow-md bg-white dark:bg-gray-800 dark:text-white"
+          className="my-6 w-3/4 border rounded border-black bg-gray-900 text p-4 text-green-400 focus:outline-0"
           rows={3}
         />
-        <div className="space-y-2">
-          {notes.map((note, index) => (
-            <div key={index} className="p-4 rounded-lg shadow-md bg-white dark:bg-gray-800 dark:text-white">
-              {note}
-            </div>
-          ))}
+      </div>
+      {notes.map((note, index) => (
+        <div className="flex flex-row justify-center">
+          <div key={index} className="mt-4 w-2/3  before:content-['>>_'] rounded text p-2 text-green-400 text-start text-lg">
+            {note}
+          </div>
+          <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={() => handleDelete(index)}>
+            Delete
+          </button>
         </div>
+      ))}
+      <div className="flex flex-row justify-center">
+        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={() => handleDeleteAll()}>
+          Delete all
+        </button>
       </div>
     </main>
   )
