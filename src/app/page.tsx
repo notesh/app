@@ -38,6 +38,27 @@ export default function Home() {
     localStorage.setItem("notes", "[]")
   }
 
+  const handleDownload = () => {
+    const now = new Date()
+    const formattedDate = now.toISOString().slice(0, 16)
+    const header = `# Notes from ${formattedDate.replace('T', ' ')}\n\n`
+    const footer = `\n\n---\n\nPowered by note.sh`
+
+    const markdownContent = notes.map((note, index) => `- ${note}`).join("\n")
+    const fullContent = `${header}${markdownContent}${footer}`
+
+    const blob = new Blob([fullContent], { type: "text/markdown" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `${formattedDate}.md`
+
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <main>
       <div className="flex flex-row justify-center">
@@ -61,7 +82,10 @@ export default function Home() {
         </div>
       ))}
       <div className="flex flex-row justify-center">
-        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={() => handleDeleteAll()}>
+        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-blue-600 text-justify" onClick={handleDownload}>
+          Download
+        </button>
+        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={handleDeleteAll}>
           Delete all
         </button>
       </div>
