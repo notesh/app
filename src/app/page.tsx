@@ -2,10 +2,12 @@
 
 import { KeyboardEvent, useEffect, useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function Home() {
   const [notes, setNotes] = useState<string[]>([])
   const [newNote, setNewNote] = useState("")
+  const { toast } = useToast()
 
   useEffect(() => {
     const storedNotes = localStorage.getItem("notes")
@@ -59,6 +61,30 @@ export default function Home() {
     URL.revokeObjectURL(url)
   }
 
+  const handleCopy = (note: string) => {
+    navigator.clipboard.writeText(note)
+      .then(() => toast({
+        description: 'Note copied to clipboard'
+      }))
+      .catch((err) => console.error('Failed to copy:', err));
+  }
+
+  const handleCopyAll = () => {
+    const now = new Date()
+    const formattedDate = now.toISOString().slice(0, 16)
+    const header = `# Notes from ${formattedDate.replace('T', ' ')}\n\n`
+    const footer = `\n\n---\n\nPowered by note.sh`
+
+    const markdownContent = notes.map((note, index) => `- ${note}`).join("\n")
+    const fullContent = `${header}${markdownContent}${footer}`
+
+    navigator.clipboard.writeText(fullContent)
+      .then(() => toast({
+        description: 'All notes copied to clipboard'
+      }))
+      .catch((err) => console.error('Failed to copy markdown:', err));
+  }
+
   return (
     <main>
       <div className="flex flex-row justify-center">
@@ -73,20 +99,26 @@ export default function Home() {
       </div>
       {notes.map((note, index) => (
         <div key={index} className="flex flex-row justify-center">
-          <div className="mt-4 w-2/3  before:content-['>>_'] rounded text p-2 text-green-400 text-start text-lg">
+          <div className="mt-4 w-2/3 rounded text p-2 text-green-400 text-start text-lg">
             {note}
           </div>
+          <button className="mt-4 ml-3 border rounded border-0 text p-2 text-blue-600 text-justify" onClick={() => handleCopy(note)}>
+            Copy
+          </button>
           <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={() => handleDelete(index)}>
             Delete
           </button>
         </div>
       ))}
       <div className="flex flex-row justify-center">
-        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-blue-600 text-justify" onClick={handleDownload}>
+        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-blue-600 text-justify" onClick={handleCopyAll}>
+          Copy
+        </button>
+        <button className="mt-4 ml-3 border rounded border-0 text p-2 text-green-600 text-justify" onClick={handleDownload}>
           Download
         </button>
         <button className="mt-4 ml-3 border rounded border-0 text p-2 text-red-600 text-justify" onClick={handleDeleteAll}>
-          Delete all
+          Delete
         </button>
       </div>
     </main>
