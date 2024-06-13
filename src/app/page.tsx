@@ -1,17 +1,26 @@
 "use client"
 
-import { KeyboardEvent, useState } from "react"
+import { KeyboardEvent, useEffect, useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 
 export default function Home() {
   const [notes, setNotes] = useState<string[]>([])
   const [newNote, setNewNote] = useState("")
 
+  useEffect(() => {
+    const storedNotes = localStorage.getItem("notes")
+    if (storedNotes) {
+      setNotes(JSON.parse(storedNotes))
+    }
+  }, [])
+
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault()
       if (newNote.trim() !== "") {
-        setNotes([...notes, newNote.trim()])
+        const updatedNotes = [...notes, newNote.trim()]
+        setNotes(updatedNotes)
+        localStorage.setItem("notes", JSON.stringify(updatedNotes))
         setNewNote("")
       }
     }
@@ -21,10 +30,12 @@ export default function Home() {
     const updatedNotes = [...notes]
     updatedNotes.splice(index, 1)
     setNotes(updatedNotes)
+    localStorage.setItem("notes", JSON.stringify(updatedNotes))
   }
 
   const handleDeleteAll = () => {
     setNotes([])
+    localStorage.setItem("notes", "[]")
   }
 
   return (
