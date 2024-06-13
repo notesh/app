@@ -3,6 +3,7 @@
 import { KeyboardEvent, useEffect, useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
+import Markdown from "react-markdown"
 
 export default function Home() {
   const [notes, setNotes] = useState<string[]>([])
@@ -85,6 +86,16 @@ export default function Home() {
       .catch((err) => console.error('Failed to copy markdown:', err));
   }
 
+  const markdownComponents = {
+    a: (props: any) => {
+      return (
+        <a {...props} style={{ textDecoration: "underline" }}>
+          {props.children}
+        </a>
+      );
+    }
+  };
+
   return (
     <main>
       <div className="flex flex-row justify-center">
@@ -99,9 +110,12 @@ export default function Home() {
       </div>
       {notes.map((note, index) => (
         <div key={index} className="flex flex-row justify-center">
-          <div className="mt-4 w-2/3 rounded text p-2 text-green-400 text-start text-lg">
+          <Markdown
+            className="mt-4 w-2/3 rounded text p-2 text-green-400 text-start text-lg"
+            components={markdownComponents}
+          >
             {note}
-          </div>
+          </Markdown>
           <button className="mt-4 ml-3 border rounded border-0 text p-2 text-blue-600 text-justify" onClick={() => handleCopy(note)}>
             Copy
           </button>
